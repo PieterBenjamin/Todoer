@@ -1,0 +1,67 @@
+@page "/todo"
+
+<h1>Todoer</h1>
+
+<input class="input-group" placeholder="Todo" @bind=@this.newItem />
+<button class="btn-primary" @onclick="SubmitNewItem">Add</button>
+
+<br />
+
+<div id="todoItems">
+    <h3>
+        Todo (@TodoItems.Count())
+    </h3>
+    <ul>
+        @foreach (var x in TodoItems)
+        {
+            <li>
+                @x
+                <button class="btn-secondary" @onclick="e => MarkDone(x)">Done</button>
+            </li>
+        }
+    </ul>
+</div>
+
+<br />
+
+<div id="doneItems">
+    <h3>
+        Done (@DoneItems.Count())
+    </h3>
+    <ul>
+        @foreach (var x in DoneItems)
+        {
+            <li>
+                @x
+                <button class="btn-secondary" @onclick="e => MarkTodo(x)">Todo</button>
+            </li>
+        }
+    </ul>
+</div>
+
+
+@code {
+    private List<string> TodoItems = new List<string>();
+
+    private List<string> DoneItems = new List<string>();
+
+    private string newItem;
+
+    private void SubmitNewItem()
+    {
+        TodoItems.Add(newItem);
+        newItem = string.Empty;
+    }
+
+    private void MarkDone(string fromTodo)
+    {
+        TodoItems.Remove(fromTodo);
+        DoneItems.Add(fromTodo);
+    }
+
+    private void MarkTodo(string fromDone)
+    {
+        DoneItems.Remove(fromDone);
+        TodoItems.Add(fromDone);
+    }
+}
